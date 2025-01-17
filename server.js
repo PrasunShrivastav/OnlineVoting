@@ -1,4 +1,4 @@
-// server.js - This is your main server file
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
