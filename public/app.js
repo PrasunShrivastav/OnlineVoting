@@ -1,4 +1,4 @@
-// app.js - Client-side JavaScript for the voting page
+
 
 // Get constituency from session
 document.addEventListener('DOMContentLoaded', async () => {
