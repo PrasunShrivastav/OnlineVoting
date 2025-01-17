@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Voting System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">
+            <img src="pngwing.com.png" alt="Government Logo" class="logo-img">
+            <h1>Government of India</h1>
+        </div>
+        <div class="title">
+            <h2>Online Voting System</h2>
+        </div>
+    </header>
+
+    <!-- Login Form Section -->
+    <div class="login-container">
+        <h2>Login to Voting System</h2>
+        <form id="loginForm" method="POST" action="/api/login">
+            <div class="form-group">
+                <label for="uid">UID</label>
+                <input type="text" id="uid" name="uid" placeholder="Enter your Unique Indentification Number" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <div id="loginError" class="error-message"></div>
+        </form>
+    </div>
+
+    <script>
+        // Handle form submission with AJAX
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const uid = document.getElementById('uid').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ uid, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Login successful") {
+                    window.location.href = '/vote'; // Redirect to vote page
+                } else {
+                    document.getElementById('loginError').textContent = data.message;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loginError').textContent = 'An error occurred. Please try again.';
+            });
+        });
+    </script>
+</body>
+</html>

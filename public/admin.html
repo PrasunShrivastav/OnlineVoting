@@ -1,0 +1,191 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Voting System</title>
+    <link rel="stylesheet" href="loginpage.css">
+    <style>
+        .admin-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        .voter-form {
+            background-color: hsla(244, 16%, 92%, 0.6);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+        .voters-list {
+            background-color: hsla(244, 16%, 92%, 0.6);
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1 class="login__title">Admin Panel</h1>
+        
+        <!-- Add Voter Form -->
+        <div class="voter-form">
+            <h2>Add New Voter</h2>
+            <form id="addVoterForm" class="login__form">
+                <div class="login__inputs">
+                    <div>
+                        <label class="login__label">UID</label>
+                        <input type="text" name="uid" required class="login__input">
+                    </div>
+                    <div>
+                        <label class="login__label">Password</label>
+                        <input type="password" name="password" required class="login__input">
+                    </div>
+                    <div>
+                        <label class="login__label">Name</label>
+                        <input type="text" name="name" required class="login__input">
+                    </div>
+                    <div>
+                        <label class="login__label">Voter ID</label>
+                        <input type="text" name="voterId" required class="login__input">
+                    </div>
+                    <div>
+                        <label class="login__label">Constituency</label>
+                        <input type="text" name="constituency" required class="login__input">
+                    </div>
+                </div>
+                <button type="submit" class="login__button">Add Voter</button>
+            </form>
+        </div>
+
+        <!-- Voters List -->
+        <div class="voters-list">
+            <h2>Registered Voters</h2>
+            <table id="votersTable">
+                <thead>
+                    <tr>
+                        <th>UID</th>
+                        <th>Name</th>
+                        <th>Voter ID</th>
+                        <th>Constituency</th>
+                        <th>Has Voted</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Admin functionality
+        let adminLoggedIn = false;
+
+        async function adminLogin() {
+            const username = prompt('Enter admin username:');
+            const password = prompt('Enter admin password:');
+
+            try {
+                const response = await fetch('/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    adminLoggedIn = true;
+                    loadVoters();
+                } else {
+                    alert('Admin login failed');
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                alert('Login error');
+            }
+        }
+
+        // Add voter
+        document.getElementById('addVoterForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const voterData = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/admin/add-voter', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(voterData)
+                });
+
+                const data = await response.json();
+                alert(data.message);
+                if (response.ok) {
+                    e.target.reset();
+                    loadVoters();
+                }
+            } catch (error) {
+                alert('Error adding voter');
+            }
+        });
+
+        // Load voters
+        async function loadVoters() {
+            try {
+                const response = await fetch('/admin/voters');
+                const voters = await response.json();
+                
+                const tbody = document.querySelector('#votersTable tbody');
+                tbody.innerHTML = voters.map(voter => `
+                    <tr>
+                        <td>${voter.uid}</td>
+                        <td>${voter.name}</td>
+                        <td>${voter.voterId}</td>
+                        <td>${voter.constituency}</td>
+                        <td>${voter.hasVoted ? 'Yes' : 'No'}</td>
+                        <td>
+                            <button onclick="deleteVoter('${voter.uid}')" class="login__button login__button-ghost">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                alert('Error loading voters');
+            }
+        }
+
+        // Delete voter
+        async function deleteVoter(uid) {
+            if (!confirm('Are you sure you want to delete this voter?')) return;
+
+            try {
+                const response = await fetch(`/admin/voter/${uid}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+                alert(data.message);
+                if (response.ok) {
+                    loadVoters();
+                }
+            } catch (error) {
+                alert('Error deleting voter');
+            }
+        }
+
+        // Initial admin login
+        adminLogin();
+    </script>
+</body>
+</html>

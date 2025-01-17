@@ -1,0 +1,165 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    height: 100vh;
+    font-family: "Poppins", serif;
+    background-color: #b4dbfe;
+}
+.header{
+    background-color: #E1EACD;
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-shadow:2px 2px 2px 2px gray;;
+}
+.sideLogo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+.sideLogo i:hover{
+    text-decoration: underline;
+    opacity: 1rem;
+}
+.user{
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+}
+.user:hover{
+    text-decoration: underline;
+    opacity: .7;
+    cursor: pointer;
+}
+
+.constituency{
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    height: 2.5rem;
+    background-color: #e8e8e8;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    box-shadow:2px 2px 2px 2px gray;
+}
+.candidatesContainer{
+    margin-top: .5rem;
+    padding: 1rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+}
+
+.candidate{
+    height: 6rem;
+    width: 30rem;
+    background-color: #e8e8e8;
+    padding: .2rem;
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+    font-weight: bold;
+}
+.candidate:hover{
+    border: 1px solid black;
+    box-shadow:2px 2px 2px 2px gray;
+    cursor: pointer;
+}
+.candidate img{
+    height: 5rem;
+    width: 5rem;
+    border-radius: 50%;
+    margin-left: 1rem;
+}
+.candidate input{
+    font-size: 2rem;
+    transform: scale(3);
+}
+
+.name{
+    margin-left: .5rem;
+    height: 6rem;
+    width: 14rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.message{
+    text-align: center;
+    margin-top: 1rem;
+}
+@keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+  
+  .message {
+    animation: blink 1s infinite;
+    color: red; /* Optional: Set the text color */
+    font-weight: bold; /* Optional: Make the text bold */
+  }
+  .buttonContainer{
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .submit{
+    height: 3rem;
+    width: 8rem;
+    border-radius: 0.5rem;
+    background-color: #4a3fe4;
+    border: none;
+    color: white;
+    font-weight: bold;
+    box-shadow:2px 2px 2px 2px #4a3fe4; ;
+  }
+  .submit:hover{
+    opacity: .7;
+    cursor: pointer;
+  }
+  #c4{
+    display: none;
+  }
+  #c5{
+    display: none;
+  }
+  #c6{
+    display: none;
+  }
+  #c7{
+    display: none;
+  }
+  #c8{
+    display: none;
+  }
+  #c9{
+    display: none;
+  }
+  #c10{
+    display: none;
+  }
+  #c11{
+    display: none;
+  }
+  #c12{
+    display: none;
+  }
+
+  
